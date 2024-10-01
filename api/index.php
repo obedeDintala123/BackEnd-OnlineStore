@@ -1,6 +1,6 @@
 <?php
 //conexão com o banco de dados
-$dsn = 'mysql:dbname=teste;dbhost=localhost';
+$dsn = 'mysql:host=localhost;dbname=testegi';
 $db_user = 'root';
 $db_pass = '';
 
