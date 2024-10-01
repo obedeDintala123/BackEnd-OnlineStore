@@ -4,7 +4,11 @@ $dsn = 'mysql:dbname=teste;dbhost=localhost';
 $db_user = 'root';
 $db_pass = '';
 
-$conexao = new PDO($dsn, $db_user, $db_pass);
-$conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+try {
+    $conexao = new PDO($dsn, $db_user, $db_pass);
+    $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-?>
+    echo "Conexão bem sucedida";
+} catch (\Throwable $e) {
+    echo "Erro de conexão:" . $e->getMessage();
+}
