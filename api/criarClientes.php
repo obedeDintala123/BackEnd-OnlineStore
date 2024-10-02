@@ -32,9 +32,11 @@ try {
 
         if($stmt -> execute()){
             echo json_encode(["message" => "Usuário adicionado com sucesso"]);
+            echo "Usuário adicionado com sucesso";
         }
         else{
             echo json_encode(["message" => "Erro ao adicionar usuários"]);
+            echo "Erro ao adicionar usuários";
         }
    }
    
