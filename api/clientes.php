@@ -6,18 +6,31 @@ header('Content-Type: application/json');
 
 include 'index.php';
 
-$email = trim(htmlspecialchars($_POST['email']));
-$password = trim(htmlspecialchars($_POST['password']));
+try {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-$sql = 'SELECT * FROM clientes WHERE email = :email';
-$stmt = $conexao->prepare($sql);
-$stmt->bindParam(':email', $email);
-$stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = json_decode(file_get_contents("php://input"), true);
 
-if($user && password_verify($password, $user['password'])){
-    echo json_encode(['sucess' => true]);
-}
-else{
-    echo json_encode(['sucess' => false]);
+        $email = trim(htmlspecialchars($data['email'] ?? ''));
+
+        $password = trim(htmlspecialchars($data['password'] ?? ''));
+
+        if (!empty($email) || !empty($password)) {
+            $sql = 'SELECT * FROM clientes WHERE email = :codeOne';
+            $stmt = $conexao->prepare($sql);
+            $stmt->bindParam(":codeOne", $email);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($password, $user["password"])) {
+                echo json_encode(["sucess" => true]);
+            } else {
+                echo json_encode(["sucess" => false, "message" => "Email ou password incorrect"]);
+            }
+        } else {
+            echo json_encode(["sucess" => false, "message" => "Email ou password não foram preenchidos"]);
+        }
+    }
+} catch (PDOException $e) {
+    echo json_encode(["error" => $e->getMessage()]);
 }
