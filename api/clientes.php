@@ -9,12 +9,8 @@ include 'index.php';
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
-
-        $data = json_decode(file_get_contents("php://input"), true);
-        $email = trim(htmlspecialchars($data['email'] ?? ''));
-        $password = trim(htmlspecialchars($data['password'] ?? ''));
+        $email = trim(htmlspecialchars($_POST['email']));
+        $password = trim(htmlspecialchars($_POST['password']));
 
         if (!empty($email) || !empty($password)) {
             $sql = 'SELECT * FROM clientes WHERE email = :codeOne';
