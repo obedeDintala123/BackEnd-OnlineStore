@@ -23,12 +23,12 @@ try {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user["password"])) {
-                echo json_encode(["sucess" => true]);
+                echo json_encode(["success" => true]);
             } else {
-                echo json_encode(["sucess" => false, "message" => "Email ou password incorrect"]);
+                echo json_encode(["success" => false, "message" => "Email ou password incorrect"]);
             }
         } else {
-            echo json_encode(["sucess" => false, "message" => "Email ou password não foram preenchidos"]);
+            echo json_encode(["success" => false, "message" => "Email ou password não foram preenchidos"]);
         }
     }
 } catch (PDOException $e) {
