@@ -6,12 +6,18 @@ header('Content-Type: application/json');
 
 include 'index.php';
 
-try {
-    $sql = 'SELECT * FROM clientes';
-    $stmt = $conexao->query($sql);
-    $clientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($clientes);
+$email = trim(htmlspecialchars($_POST['email']));
+$password = trim(htmlspecialchars($_POST['password']));
 
-} catch (PDOException $e) {
-    echo json_encode(["error" => $e->getMessage()]);
+$sql = 'SELECT * FROM clientes WHERE email = :email';
+$stmt = $conexao->prepare($sql);
+$stmt->bindParam(':email', $email);
+$stmt->execute();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if($user && password_verify($password, $user['password'])){
+    echo json_encode(['sucess' => true]);
+}
+else{
+    echo json_encode(['sucess' => false]);
 }
