@@ -9,13 +9,16 @@ include 'index.php';
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        $email = trim(htmlspecialchars($_POST['email']));
-        $password = trim(htmlspecialchars($_POST['password']));
+        $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!empty($email) || !empty($password)) {
-            $sql = 'SELECT * FROM clientes WHERE email = :codeOne';
+        if (!empty($data['email']) && !empty($data['password'])) {
+
+            $email = trim(htmlspecialchars($data['email']));
+            $password = trim(htmlspecialchars($data['password']));
+
+            $sql = 'SELECT * FROM clientes WHERE email = :email';
             $stmt = $conexao->prepare($sql);
-            $stmt->bindParam(":codeOne", $email);
+            $stmt->bindParam(":email", $email);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -25,7 +28,7 @@ try {
                 echo json_encode(["success" => false, "message" => "Email ou password incorrect"]);
             }
         } else {
-            echo json_encode(["success" => false, "message" => "Email ou password não foram preenchidos"]);
+            echo json_encode(["success" => false, "message" => "Email or password not filled in"]);
         }
     }
 } catch (PDOException $e) {
