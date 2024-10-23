@@ -34,9 +34,9 @@ try {
             // Remetente e destinatário
             $mail->setFrom('dintalaobede@gmail.com', 'OnlineStore');
 
-            if ($userLoginEmail && !$userSignUpEmail) {
+            if ($userLoginEmail) {
                 $mail->addAddress($userLoginEmail, 'User');
-            } else if ($userSignUpEmail && !$userLoginEmail) {
+            } else if ($userSignUpEmail) {
                 $mail->addAddress($userSignUpEmail, 'User');
             } else {
                 echo json_encode(['status' => false, 'message' => 'No email address']);
