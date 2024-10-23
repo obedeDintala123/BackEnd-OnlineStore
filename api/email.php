@@ -20,8 +20,9 @@ try {
 
         if (!empty($data['userLoginEmail']) || !empty($data['userSignUpEmail'])) {
 
-            $userLoginEmail = trim(htmlspecialchars($data['userLoginEmail']));
-            $userSignUpEmail = trim(htmlspecialchars($data['userSignUpEmail']));
+            $userLoginEmail = isset($data['userLoginEmail']) ? trim(htmlspecialchars($data['userLoginEmail'])) : '';
+$userSignUpEmail = isset($data['userSignUpEmail']) ? trim(htmlspecialchars($data['userSignUpEmail'])) : '';
+
             // Configurações do servidor SMTP
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; // Ex: smtp.gmail.com
