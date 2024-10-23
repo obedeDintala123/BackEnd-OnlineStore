@@ -22,11 +22,16 @@ try {
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user["senha"])) {
-                echo json_encode(["success" => true, "message" => "Login successful"]);
-            } else {
-                echo json_encode(["success" => false, "message" => "Email ou password incorrect"]);
+            if($user){
+                if ($user && password_verify($password, $user["senha"])) {
+                    echo json_encode(["success" => true, "message" => "Login successful"]);
+                } else {
+                    echo json_encode(["success" => false, "message" => "Email or password incorrect"]);
+                }
+            }else{
+                echo json_encode(["success" => false, "message" => "User not found!"]);
             }
+            
         } else {
             echo json_encode(["success" => false, "message" => "Email or password not filled in"]);
         }
